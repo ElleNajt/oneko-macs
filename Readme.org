@@ -1,5 +1,7 @@
 #+title: Readme
 
+Oneko in emacs!
+
 A silly package that uses the classic shell script oneko to make a kitty in emacs follow the location of your cursor. This is achieved by using xdotool to move the mouse along with your cursor, so that oneko chases it.
 
 To run, evaluate:
@@ -21,10 +23,6 @@ To stop, evaluate:
 (oneko-macs--stop-oneko)
 #+end_src
 
-
-* System support:
-Currently only supported on gnu/linux with X11. Some scaffolding is there for mac, wayland and windows options. Pull requests are welcome!
-
 * Installation
 ** Straight
 #+begin_src emacs-lisp :tangle yes
@@ -35,6 +33,10 @@ Currently only supported on gnu/linux with X11. Some scaffolding is there for ma
 #+end_src
 ** TODO Melpa
 
-* Requirements:
 
-- xdotool
+* System support and requirements.
+Requires oneko.
+- Linux with X11 : requires xdotool.
+- Linux with Wayland : Not supported (PR Welcome - just change oneko-macs--move-mouse-system )
+- Windows : Not supported (PR Welcome - just change oneko-macs--move-mouse-system )
+- Mac : Not supported (PR Welcome - just change oneko-macs--move-mouse-system )
