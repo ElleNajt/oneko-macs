@@ -1,6 +1,8 @@
 #+title: Readme
 
-Oneko in emacs!
+Oneko in emacs, following your cursor!
+
+[[./recording.gif]]
 
 A silly package that uses the classic shell script oneko to make a kitty in emacs follow the location of your cursor. This is achieved by using xdotool to move the mouse along with your cursor, so that oneko chases it.
 
