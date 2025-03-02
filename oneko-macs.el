@@ -60,7 +60,6 @@
 ;;;;; Following
 
 (defun oneko-macs--move-mouse-to-cursor ()
-  (interactive)
   (let ((pos (window-absolute-pixel-position)))
     (when pos
       (oneko-macs--move-mouse-system pos))))
@@ -90,7 +89,6 @@
 
 (defun oneko-macs--move-mouse-away-from-cursor ()
   "Move mouse to the point furthest from the cursor."
-  (interactive)
   (let ((pos (window-absolute-pixel-position)))
     (when pos
       (oneko-macs--move-mouse-system 
@@ -119,7 +117,6 @@
       (oneko-macs--move-mouse-system (cons random-x random-y)))))
 
 (defun oneko-macs--move-mouse-to-cursor-edges ()
-  (interactive)
   (let ((pos (window-absolute-pixel-position)))
     (when (and pos (car pos) (cdr pos)) ; Make sure we have valid coordinates
       (oneko-macs--move-mouse-along-edges pos))))
