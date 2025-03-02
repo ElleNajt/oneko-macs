@@ -165,6 +165,7 @@
 (defun oneko-macs--choose-oneko ()
   "Choose a friend to follow your cursor"
   (interactive)
+  (oneko-macs--stop-oneko)
   (let* ((options '(("Normal Cat" . ("oneko" "-time" "60000"))
                     ("Tora (Tiger)" . ("oneko" "-tora" "-time" "60000"))
                     ("Sakura (Cherry)" . ("oneko" "-sakura" "-time" "60000"))
@@ -191,7 +192,6 @@
   (interactive)
   (shell-command "pkill oneko")
   (remove-hook 'post-command-hook 'oneko-macs--move-mouse-random)
-
   (remove-hook 'post-command-hook 'oneko-macs--move-mouse-away-from-cursor)
   (remove-hook 'post-command-hook 'oneko-macs--move-mouse-to-minibuffer)
   (remove-hook 'post-command-hook 'oneko-macs--move-mouse-to-cursor)
