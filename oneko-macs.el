@@ -159,6 +159,10 @@
 
 
 ;;;; Menu
+
+(defvar oneko-macs--timer nil)
+(defvar oneko-macs--update-interval 0.1) ; seconds
+
 (defun oneko-macs--choose-oneko ()
   "Choose a friend to follow your cursor"
   (interactive)
@@ -172,15 +176,16 @@
          (movement-type (completing-read "Choose movement type: " 
                                          '("Follow Closely" "Minibuffer" "Random" "Run Away") nil t))
          (cmd-args (cdr (assoc choice options)))
-         (hook (cond ((string= movement-type "Follow Closely") 'oneko-macs--move-mouse-to-cursor)
-                     ((string= movement-type "Minibuffer") 'oneko-macs--move-mouse-to-cursor-minibuffer)
-                     ((string= movement-type "Random") 'oneko-macs--move-mouse-random)
-                     ((string= movement-type "Run Away") 'oneko-macs--move-mouse-away-from-cursor))))
+         (move-func (cond ((string= movement-type "Follow Closely") #'oneko-macs--move-mouse-to-cursor)
+                          ((string= movement-type "Minibuffer") #'oneko-macs--move-mouse-to-cursor-minibuffer)
+                          ((string= movement-type "Random") #'oneko-macs--move-mouse-random)
+                          ((string= movement-type "Run Away") #'oneko-macs--move-mouse-away-from-cursor))))
     (make-process :name "oneko"
                   :buffer nil
                   :command cmd-args
                   :noquery t)
-    (add-hook 'post-command-hook hook)))
+    (setq oneko-macs--timer
+          (run-with-timer 0 oneko-macs--update-interval move-func))))
 
 ;;;; Cleanup
 
@@ -188,11 +193,9 @@
   "Stop oneko and cursor following"
   (interactive)
   (shell-command "pkill oneko")
-  (remove-hook 'post-command-hook 'oneko-macs--move-mouse-random)
-  (remove-hook 'post-command-hook 'oneko-macs--move-mouse-away-from-cursor)
-  (remove-hook 'post-command-hook 'oneko-macs--move-mouse-to-minibuffer)
-  (remove-hook 'post-command-hook 'oneko-macs--move-mouse-to-cursor)
-  (remove-hook 'post-command-hook 'oneko-macs--move-mouse-to-cursor-edges))
+  (when oneko-macs--timer
+    (cancel-timer oneko-macs--timer)
+    (setq oneko-macs--timer nil)))
 
 (provide 'oneko-macs)
 ;;; oneko-macs.el ends here
